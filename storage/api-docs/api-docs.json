@@ -1,0 +1,61 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "COVID-19 Data API",
+        "description": "This is an API that scrape data from https://www.worldometers.info/coronavirus/ and serve the data in JSON format",
+        "contact": {
+            "name": "Developer",
+            "email": "haniefhan@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/latest_covid_data": {
+            "get": {
+                "tags": [
+                    "yourtag"
+                ],
+                "operationId": "/latest_covid_data",
+                "parameters": [
+                    {
+                        "name": "country_name",
+                        "in": "query",
+                        "description": "Country name you want to get the data",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns latest COVID-19 data based on country inputted",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/top_ten_covid_case": {
+            "get": {
+                "tags": [
+                    "yourtag"
+                ],
+                "operationId": "/top_ten_covid_case",
+                "responses": {
+                    "200": {
+                        "description": "Returns top ten COVID-19 case data",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
