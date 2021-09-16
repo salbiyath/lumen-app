@@ -11,18 +11,20 @@ class CovidDataController extends Controller{
      * @OA\Get(
      *     path="/latest_covid_data",
      *     operationId="/latest_covid_data",
-     *     tags={"yourtag"},
+     *     tags={"Covid Data"},
      *     @OA\Parameter(
      *         name="country_name",
      *         in="query",
-     *         description="Country name you want to get the data",
+     *         description="Country name you want to get the data, you can see the list with accessing /get_countries",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(type="string", default="USA")
      *     ),
      *     @OA\Response(
      *         response="200",
      *         description="Returns latest COVID-19 data based on country inputted",
-     *         @OA\JsonContent()
+     *         @OA\JsonContent(
+     *             @OA\Property(type="object", ref="#/components/schemas/CovidData")
+     *         ),
      *     ),
      * )
      */
@@ -57,11 +59,13 @@ class CovidDataController extends Controller{
      * @OA\Get(
      *     path="/top_ten_covid_case",
      *     operationId="/top_ten_covid_case",
-     *     tags={"yourtag"},
+     *     tags={"Covid Data"},
      *     @OA\Response(
      *         response="200",
      *         description="Returns top ten COVID-19 case data",
-     *         @OA\JsonContent()
+     *         @OA\JsonContent(type="array",
+     *             @OA\Items(type="object", ref="#/components/schemas/CovidData")
+     *         )
      *     ),
      * )
      */
@@ -72,7 +76,6 @@ class CovidDataController extends Controller{
         $x = new \DOMXPath($dom);
 
         $datas = [];
-
         $start = 7;
 
         foreach ($x->query("//table[@id='main_table_countries_today']/tbody/tr") as $i => $tr) {
@@ -163,4 +166,20 @@ class CovidDataController extends Controller{
         $number = preg_replace('/[^0-9]/', '', $number);
         return (int) $number;
     }
+
+    /**
+     * @OA\Components(
+     *     @OA\Schema(
+     *         schema="CovidData",
+     *         @OA\Xml(name="CovidData"),
+     *         @OA\Property(property="country_rank", type="string", example="1"),
+     *         @OA\Property(property="country_name", type="string", example="USA"),
+     *         @OA\Property(property="total_cases", type="integer", readOnly="true", example="42479780"),
+     *         @OA\Property(property="new_cases", type="integer", readOnly="true", example="0"),
+     *         @OA\Property(property="total_deaths", type="integer", readOnly="true", example="685023"),
+     *         @OA\Property(property="new_deaths", type="integer", readOnly="true", example="0"),
+     *         @OA\Property(property="total_recovered", type="integer", readOnly="true", example="32271084"),
+     *     )
+     * )
+     */
 }
