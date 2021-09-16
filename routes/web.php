@@ -23,3 +23,4 @@ $router->get('/key', function() {
 
 $router->get('/latest_covid_data', '\App\Http\Controllers\CovidDataController@latest_covid_data');
 $router->get('/top_ten_covid_case', '\App\Http\Controllers\CovidDataController@top_ten_covid_case');
+$router->get('/get_countries', '\App\Http\Controllers\CovidDataController@get_countries');

@@ -95,6 +95,41 @@ class CovidDataController extends Controller{
         return $datas;
     }
 
+    /**
+     * @OA\Get(
+     *     path="/get_countries",
+     *     operationId="/get_countries",
+     *     tags={"Master Data"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Returns list of countries in table",
+     *         @OA\JsonContent(type="array", 
+     *             @OA\Items(type="string", example={"USA", "India", "Brazil", "UK", "Russia"})
+     *         )
+     *     ),
+     * )
+     */
+    public function get_countries(){
+        $html = $this->get_web_page($this->url);
+        $dom = new \DOMDocument();
+        @$dom->loadHTML($html);
+        $x = new \DOMXPath($dom);
+
+        $datas = [];
+        $start = 7;
+        $end = 230;
+
+        foreach ($x->query("//table[@id='main_table_countries_today']/tbody/tr") as $i => $tr) {
+            if($i > $start && $i <= $end){
+                $td = $x->query('./td', $tr);
+
+                $datas[] = trim($td->item(1)->nodeValue);
+            }
+        }
+
+        return $datas;
+    }
+
     private function get_web_page($url = '', $option = array(), $getinfo = false) {
         $curl = curl_init($url);
 
