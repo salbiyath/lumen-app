@@ -129,7 +129,7 @@ class CovidDataController extends Controller{
                 $datas[] = trim($td->item(1)->nodeValue);
             }
         }
-
+        sort($datas);
         return $datas;
     }
 
