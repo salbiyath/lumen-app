@@ -19,10 +19,16 @@ php7-curl
 RUN apk --no-cache add \
 php7-tokenizer
 
+# for composer & our project depency run smoothly
+RUN apk --no-cache add \
+php7-phar \
+php7-xml \
+php7-xmlwriter
+
 # if need composer to update plugin / vendor used
-# RUN php7 -r "copy('http://getcomposer.org/installer', 'composer-setup.php');" && \
-# php7 composer-setup.php --install-dir=/usr/bin --filename=composer && \
-# php7 -r "unlink('composer-setup.php');"
+RUN php7 -r "copy('http://getcomposer.org/installer', 'composer-setup.php');" && \
+php7 composer-setup.php --install-dir=/usr/bin --filename=composer && \
+php7 -r "unlink('composer-setup.php');"
 
 # RUN ln -sf /usr/bin/php7 /usr/bin/php && \
 # ln -s /etc/php7/php.ini /etc/php7/conf.d/php.ini
@@ -35,8 +41,11 @@ php7-tokenizer
 COPY . /src
 WORKDIR /src
 
+RUN composer update
+
 # ADD .env.example /src/.env
 # RUN chmod -R 777 storage
 
 # run the php server service
-CMD php -S 0.0.0.0:8080 public/index.php
+# move this command to -> docker-compose.yml
+# CMD php -S 0.0.0.0:8080 public/index.php
