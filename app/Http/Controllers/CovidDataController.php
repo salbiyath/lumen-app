@@ -38,7 +38,8 @@ class CovidDataController extends Controller{
 
         $data = [];
 
-        foreach ($x->query("//table[@id='main_table_countries_today']/tbody/tr") as $tr) {
+        $query = "//table[@id='main_table_countries_today']/tbody/tr[not(contains(@class, 'total_row_world')) and not(contains(@class, 'total_row'))]";
+        foreach ($x->query($query) as $tr) {
             if(strpos($tr->nodeValue, $country_name)){
                 $td = $x->query('./td', $tr);
 
@@ -76,10 +77,10 @@ class CovidDataController extends Controller{
         $x = new \DOMXPath($dom);
 
         $datas = [];
-        $start = 7;
 
-        foreach ($x->query("//table[@id='main_table_countries_today']/tbody/tr") as $i => $tr) {
-            if($i > $start && $i <= $start + 10){
+        $query = "//table[@id='main_table_countries_today']/tbody/tr[not(contains(@class, 'total_row_world')) and not(contains(@class, 'total_row'))]";
+        foreach ($x->query($query) as $i => $tr) {
+            if($i < 10){
                 $td = $x->query('./td', $tr);
 
                 $data = [];
@@ -119,15 +120,12 @@ class CovidDataController extends Controller{
         $x = new \DOMXPath($dom);
 
         $datas = [];
-        $start = 7;
-        $end = 230;
 
-        foreach ($x->query("//table[@id='main_table_countries_today']/tbody/tr") as $i => $tr) {
-            if($i > $start && $i <= $end){
-                $td = $x->query('./td', $tr);
+        $query = "//table[@id='main_table_countries_today']/tbody/tr[not(contains(@class, 'total_row_world')) and not(contains(@class, 'total_row'))]";
+        foreach ($x->query($query) as $i => $tr) {
+            $td = $x->query('./td', $tr);
 
-                $datas[] = trim($td->item(1)->nodeValue);
-            }
+            $datas[] = trim($td->item(1)->nodeValue);
         }
         sort($datas);
         return $datas;
