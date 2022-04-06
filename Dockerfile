@@ -43,6 +43,8 @@ WORKDIR /src
 
 RUN composer update
 
+ENV PORT=8080
+
 EXPOSE 8080
 
 # ADD .env.example /src/.env
