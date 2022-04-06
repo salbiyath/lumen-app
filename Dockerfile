@@ -52,3 +52,5 @@ EXPOSE 8000
 
 # run the php server service
 CMD php -S 0.0.0.0:8080 public/index.php
+# move this command to -> docker-compose.yml
+# CMD php -S 0.0.0.0:8080 public/index.php
