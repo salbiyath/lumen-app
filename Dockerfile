@@ -43,6 +43,8 @@ WORKDIR /src
 
 RUN composer update
 
+EXPOSE 8080
+
 # ADD .env.example /src/.env
 # RUN chmod -R 777 storage
 
