@@ -41,7 +41,7 @@ RUN php7 -r "copy('http://getcomposer.org/installer', 'composer-setup.php');" &&
 COPY . /src
 WORKDIR /src
 
-RUN composer update
+RUN composer install
 
 ENV PORT=8000
 
@@ -51,6 +51,6 @@ EXPOSE 8000
 # RUN chmod -R 777 storage
 
 # run the php server service
-CMD php -S 0.0.0.0:8080 public/index.php
+CMD php -S 0.0.0.0:8000 public/index.php
 # move this command to -> docker-compose.yml
 # CMD php -S 0.0.0.0:8080 public/index.php

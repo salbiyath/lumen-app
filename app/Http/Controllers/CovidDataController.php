@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CovidDataController extends Controller{
+class CovidDataController extends Controller
+{
 
     private $url = 'https://www.worldometers.info/coronavirus/';
 
@@ -28,7 +30,8 @@ class CovidDataController extends Controller{
      *     ),
      * )
      */
-    public function latest_covid_data(Request $request){
+    public function latest_covid_data(Request $request)
+    {
         $country_name = $request->has('country_name') ? $request->input('country_name') : 'USA';
 
         $html = $this->get_web_page($this->url);
@@ -40,7 +43,7 @@ class CovidDataController extends Controller{
 
         $query = "//table[@id='main_table_countries_today']/tbody/tr[not(contains(@class, 'total_row_world')) and not(contains(@class, 'total_row'))]";
         foreach ($x->query($query) as $tr) {
-            if(strpos($tr->nodeValue, $country_name)){
+            if (strpos($tr->nodeValue, $country_name)) {
                 $td = $x->query('./td', $tr);
 
                 $data['country_rank'] = $td->item(0)->nodeValue;
@@ -70,7 +73,8 @@ class CovidDataController extends Controller{
      *     ),
      * )
      */
-    public function top_ten_covid_case(){
+    public function top_ten_covid_case()
+    {
         $html = $this->get_web_page($this->url);
         $dom = new \DOMDocument();
         @$dom->loadHTML($html);
@@ -80,7 +84,7 @@ class CovidDataController extends Controller{
 
         $query = "//table[@id='main_table_countries_today']/tbody/tr[not(contains(@class, 'total_row_world')) and not(contains(@class, 'total_row'))]";
         foreach ($x->query($query) as $i => $tr) {
-            if($i < 10){
+            if ($i < 10) {
                 $td = $x->query('./td', $tr);
 
                 $data = [];
@@ -113,7 +117,8 @@ class CovidDataController extends Controller{
      *     ),
      * )
      */
-    public function get_countries(){
+    public function get_countries()
+    {
         $html = $this->get_web_page($this->url);
         $dom = new \DOMDocument();
         @$dom->loadHTML($html);
@@ -131,7 +136,8 @@ class CovidDataController extends Controller{
         return $datas;
     }
 
-    private function get_web_page($url = '', $option = array(), $getinfo = false) {
+    private function get_web_page($url = '', $option = array(), $getinfo = false)
+    {
         $curl = curl_init($url);
 
         $option[CURLOPT_RETURNTRANSFER] = 1;
@@ -158,7 +164,8 @@ class CovidDataController extends Controller{
             return $data['content'];
     }
 
-    private function parse_the_number($number = 0){
+    private function parse_the_number($number = 0)
+    {
         $number = trim($number);
         // remove all not number
         $number = preg_replace('/[^0-9]/', '', $number);
