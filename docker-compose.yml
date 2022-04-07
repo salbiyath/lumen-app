@@ -1,9 +1,10 @@
 version: '3.8'
 services:
   api:
+    image: salbiyath/laravel_test
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - 8000:8000
-    
+    container_name: covid_19_api
