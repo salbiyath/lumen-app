@@ -17,6 +17,6 @@ jobs:
       - name: Rename env file
         run: mv .env.dev .env
       - name: Build the Docker image
-        run: docker-compose --env-file .env.dev build
+        run: docker-compose build
       - name: Docker Push
         run: docker push ${{secrets.DOCKER_USERNAME}}/laravel_test
