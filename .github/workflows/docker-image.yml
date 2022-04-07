@@ -15,6 +15,6 @@ jobs:
       - name: Docker Login
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
       - name: Build the Docker image
-        run: docker-compose build --env-file .env.dev
+        run: docker-compose --env-file .env.dev up
       - name: Docker Push
         run: docker push ${{secrets.DOCKER_USERNAME}}/laravel_test
